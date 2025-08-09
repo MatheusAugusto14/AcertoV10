@@ -48,7 +48,7 @@ documentosVisuais.forEach((doc) => {
     input.setAttribute("data-ordem", String(doc.ordemData));
     input.onchange = function() { limitarSelecao(this); };
     label.appendChild(input);
-    label.appendChild(document.createTextNode(" " + doc.nome + " (" + doc.codigo + ")"));
+    label.appendChild(document.createTextNode(doc.codigo + " - " + doc.nome));
     docsDiv.appendChild(label);
 });
 
