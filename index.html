@@ -1,97 +1,29 @@
-<!DOCTYPE html>
-
+<!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="manifest" href="manifest.json">
 <title>Reckoning - Códigos SAM</title>
-<link href="./manifest.json" rel="manifest"/>
-<meta content="#00ffcc" name="theme-color"/>
-<style>
-        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; background: #111; color: #fff; }
-        h1 { color: #00ffcc; }
-        button { padding: 10px; margin: 5px; background: #00ffcc; border: none; border-radius: 5px; cursor: pointer; }
-        .result { margin-top: 20px; font-size: 1.5em; }
-        label { display: block; margin: 5px 0; }
-    </style>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<h1>Reckoning - Códigos SAM</h1>
-<p>Selecione os 4 documentos encontrados:</p>
-<div id="docs"></div>
-<button onclick="calcularSenha()">Gerar Senha</button>
-<div class="result" id="resultado"></div>
-<script>
-// --- Documentos com ordemData definida (1 = mais antigo, 6 = mais recente) ---
-const documentos = [
-    { codigo: 6, nome: "Crachá da BND", ordemData: 1, data: "1985-06-28" },
-    { codigo: 1, nome: "Coleira do Notso", ordemData: 2, data: "1985-07-15" },
-    { codigo: 3, nome: "Cachecol", ordemData: 3, data: "1985-08-01" },
-    { codigo: 4, nome: "Relógio de Pulso", ordemData: 4, data: "1985-09-10" },
-    { codigo: 5, nome: "Óculos de Combate", ordemData: 5, data: "1985-10-12" },
-    { codigo: 2, nome: "Katana", ordemData: 6, data: "1985-12-08" }
-];
+  <main class="app">
+    <header class="app-header">
+      <h1>Reckoning - Códigos SAM</h1>
+      <p class="subtitle">Selecione até 4 arquivos SAM</p>
+    </header>
 
-// Ordena visualmente por código (1..6) antes de renderizar
-const documentosVisuais = [...documentos].sort((a, b) => a.codigo - b.codigo);
+    <section class="cards" id="docs"></section>
 
-const docsDiv = document.getElementById("docs");
-docsDiv.innerHTML = ""; // limpa antes de inserir
+    <div class="controls">
+      <div id="warning" class="warning" aria-live="polite"></div>
+      <div id="resultado" class="resultado">Senha: </div>
+    </div>
 
-documentosVisuais.forEach((doc) => {
-    const label = document.createElement("label");
-    label.style.display = "block";
-    const input = document.createElement("input");
-    input.type = "checkbox";
-    input.value = String(doc.codigo); // guarda o código real
-    input.setAttribute("data-codigo", String(doc.codigo));
-    input.setAttribute("data-ordem", String(doc.ordemData));
-    input.onchange = function() { limitarSelecao(this); };
-    label.appendChild(input);
-    label.appendChild(document.createTextNode(doc.codigo + " - " + doc.nome));
-    docsDiv.appendChild(label);
-});
+    <footer class="footer">PWA • Offline ready</footer>
+  </main>
 
-function limitarSelecao(checkbox) {
-    const selecionados = document.querySelectorAll("#docs input:checked").length;
-    if (selecionados > 4) {
-        checkbox.checked = false;
-        alert("Você só pode selecionar no máximo 4 documentos!");
-    }
-}
-
-function calcularSenha() {
-    const checkedEls = Array.from(document.querySelectorAll("#docs input:checked"));
-    if (checkedEls.length !== 4) {
-        alert("Selecione exatamente 4 documentos!");
-        return;
-    }
-    // Mapear checkboxes para objetos de documento usando o código
-    const selecionados = checkedEls.map(el => {
-        const codigo = Number(el.value);
-        const doc = documentos.find(d => d.codigo === codigo);
-        return doc;
-    });
-
-    // Ordenar pelos valores de ordemData (1 = mais antigo)
-    selecionados.sort((a, b) => a.ordemData - b.ordemData);
-
-    // Gerar senha concatenando os códigos na ordem ordenada por ordemData
-    const senha = selecionados.map(d => d.codigo).join("");
-    const resultadoEl = document.getElementById("resultado");
-    if (resultadoEl) {
-        resultadoEl.innerText = "Senha: " + senha;
-    } else {
-        alert("Senha: " + senha);
-    }
-}
-
-// Registrar service worker se existir
-if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("./service-worker.js")
-    .then(() => console.log("Service Worker registrado."))
-    .catch(err => console.error("Erro no SW:", err));
-}
-</script>
+<script src="app.js"></script>
 </body>
 </html>
