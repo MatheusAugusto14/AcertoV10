@@ -1,12 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reckoning - Códigos SAM</title>
-    <link rel="manifest" href="./manifest.json">
-    <meta name="theme-color" content="#00ffcc">
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Reckoning - Códigos SAM</title>
+<link href="./manifest.json" rel="manifest"/>
+<meta content="#00ffcc" name="theme-color"/>
+<style>
         body { font-family: Arial, sans-serif; text-align: center; padding: 20px; background: #111; color: #fff; }
         h1 { color: #00ffcc; }
         button { padding: 10px; margin: 5px; background: #00ffcc; border: none; border-radius: 5px; cursor: pointer; }
@@ -15,58 +16,82 @@
     </style>
 </head>
 <body>
-    <h1>Reckoning - Códigos SAM</h1>
-    <p>Selecione os 4 documentos encontrados:</p>
-    <div id="docs"></div>
-    <button onclick="calcularSenha()">Gerar Senha</button>
-    <div class="result" id="resultado"></div>
+<h1>Reckoning - Códigos SAM</h1>
+<p>Selecione os 4 documentos encontrados:</p>
+<div id="docs"></div>
+<button onclick="calcularSenha()">Gerar Senha</button>
+<div class="result" id="resultado"></div>
+<script>
+// --- Documentos com ordemData definida (1 = mais antigo, 6 = mais recente) ---
+const documentos = [
+    { codigo: 6, nome: "Crachá da BND", ordemData: 1, data: "1985-06-28" },
+    { codigo: 1, nome: "Coleira do Notso", ordemData: 2, data: "1985-07-15" },
+    { codigo: 3, nome: "Cachecol", ordemData: 3, data: "1985-08-01" },
+    { codigo: 4, nome: "Relógio de Pulso", ordemData: 4, data: "1985-09-10" },
+    { codigo: 5, nome: "Óculos de Combate", ordemData: 5, data: "1985-10-12" },
+    { codigo: 2, nome: "Katana", ordemData: 6, data: "1985-12-08" }
+];
 
-    <script>
-        const documentos = [
-            { codigo: 6, nome: "Crachá da BND", data: "1985" },
-            { codigo: 1, nome: "Coleira do Notso", data: "1985" },
-            { codigo: 3, nome: "Cachecol", data: "1985" },
-            { codigo: 4, nome: "Relógio de Pulso", data: "1985" },
-            { codigo: 5, nome: "Óculos de Combate", data: "1985" },
-            { codigo: 2, nome: "Katana", data: "1985" }
-        ];
+// Ordena visualmente por código (1..6) antes de renderizar
+const documentosVisuais = [...documentos].sort((a, b) => a.codigo - b.codigo);
 
-        const docsDiv = document.getElementById("docs");
-        documentos.forEach((doc, index) => {
-            docsDiv.innerHTML += `
-                <label>
-                    <input type="checkbox" value="${index}" onchange="limitarSelecao(this)">
-                    ${doc.nome} (${doc.codigo})
-                </label>`;
-        });
+const docsDiv = document.getElementById("docs");
+docsDiv.innerHTML = ""; // limpa antes de inserir
 
-        function limitarSelecao(checkbox) {
-            const selecionados = document.querySelectorAll("input:checked").length;
-            if (selecionados > 4) {
-                checkbox.checked = false;
-                alert("Você só pode selecionar no máximo 4 documentos!");
-            }
-        }
+documentosVisuais.forEach((doc) => {
+    const label = document.createElement("label");
+    label.style.display = "block";
+    const input = document.createElement("input");
+    input.type = "checkbox";
+    input.value = String(doc.codigo); // guarda o código real
+    input.setAttribute("data-codigo", String(doc.codigo));
+    input.setAttribute("data-ordem", String(doc.ordemData));
+    input.onchange = function() { limitarSelecao(this); };
+    label.appendChild(input);
+    label.appendChild(document.createTextNode(" " + doc.nome + " (" + doc.codigo + ")"));
+    docsDiv.appendChild(label);
+});
 
-        function calcularSenha() {
-            const selecionados = Array.from(document.querySelectorAll("input:checked"))
-                .map(el => documentos[el.value]);
-            
-            if (selecionados.length !== 4) {
-                alert("Selecione exatamente 4 documentos!");
-                return;
-            }
+function limitarSelecao(checkbox) {
+    const selecionados = document.querySelectorAll("#docs input:checked").length;
+    if (selecionados > 4) {
+        checkbox.checked = false;
+        alert("Você só pode selecionar no máximo 4 documentos!");
+    }
+}
 
-            selecionados.sort((a, b) => new Date(a.data) - new Date(b.data));
-            const senha = selecionados.map(doc => doc.codigo).join("");
-            document.getElementById("resultado").innerText = "Senha: " + senha;
-        }
+function calcularSenha() {
+    const checkedEls = Array.from(document.querySelectorAll("#docs input:checked"));
+    if (checkedEls.length !== 4) {
+        alert("Selecione exatamente 4 documentos!");
+        return;
+    }
+    // Mapear checkboxes para objetos de documento usando o código
+    const selecionados = checkedEls.map(el => {
+        const codigo = Number(el.value);
+        const doc = documentos.find(d => d.codigo === codigo);
+        return doc;
+    });
 
-        if ("serviceWorker" in navigator) {
-            navigator.serviceWorker.register("./service-worker.js")
-            .then(() => console.log("Service Worker registrado."))
-            .catch(err => console.error("Erro no SW:", err));
-        }
-    </script>
+    // Ordenar pelos valores de ordemData (1 = mais antigo)
+    selecionados.sort((a, b) => a.ordemData - b.ordemData);
+
+    // Gerar senha concatenando os códigos na ordem ordenada por ordemData
+    const senha = selecionados.map(d => d.codigo).join("");
+    const resultadoEl = document.getElementById("resultado");
+    if (resultadoEl) {
+        resultadoEl.innerText = "Senha: " + senha;
+    } else {
+        alert("Senha: " + senha);
+    }
+}
+
+// Registrar service worker se existir
+if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("./service-worker.js")
+    .then(() => console.log("Service Worker registrado."))
+    .catch(err => console.error("Erro no SW:", err));
+}
+</script>
 </body>
 </html>
