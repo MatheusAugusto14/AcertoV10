@@ -8,6 +8,31 @@
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+<div id="senha-sam-screen" style="text-align:center; padding:20px;">
+  <h2>Gerar Senha SAM</h2>
+  <p>Selecione até 4 itens abaixo para gerar a senha:</p>
+  <div class="grid">
+    <div class="item">1</div>
+    <div class="item">2</div>
+    <div class="item">3</div>
+    <div class="item">4</div>
+    <div class="item">5</div>
+    <div class="item">6</div>
+  </div>
+  <div id="senha-result" style="font-size:36px; font-weight:bold; margin-top:20px;"></div>
+  <br><br>
+  <button onclick="switchScreen('periodic-table-screen')" style="padding:10px 20px;background-color:#06b6d4;color:white;border:none;border-radius:8px;">Ir para Tabela Periódica</button>
+</div>
+
+<div id="periodic-table-screen" style="text-align:center; padding:20px;">
+  <h2>Buscar Código na Tabela Periódica</h2>
+  <input type="text" id="elementInput" maxlength="2" placeholder="Digite símbolo (ex: He)" style="padding:5px;font-size:16px;text-transform:capitalize;">
+  <button onclick="findAtomicNumber()" style="padding:5px 10px;font-size:16px;">Buscar</button>
+  <p id="atomicResult" style="font-size:20px;font-weight:bold;margin-top:10px;"></p>
+  <br><br>
+  <button onclick="switchScreen('senha-sam-screen')" style="padding:10px 20px;background-color:#06b6d4;color:white;border:none;border-radius:8px;">Voltar para Senha SAM</button>
+</div>
+
   <main class="app">
     <header class="app-header">
       <h1>Reckoning - Códigos SAM</h1>
@@ -52,14 +77,18 @@ document.addEventListener('DOMContentLoaded', ()=>{
 </script>
 
 
-<div style="margin-top:20px;padding:10px;border:1px solid #ccc;border-radius:8px;">
-    <h3>Periodic Table Code Finder</h3>
-    <input type="text" id="elementInput" maxlength="2" placeholder="Digite símbolo (ex: He)" style="padding:5px;font-size:16px;text-transform:capitalize;">
-    <button onclick="findAtomicNumber()" style="padding:5px 10px;font-size:16px;">Buscar</button>
-    <p id="atomicResult" style="font-size:20px;font-weight:bold;margin-top:10px;"></p>
-</div>
-
 <script>
+function switchScreen(screenId) {
+    document.getElementById('senha-sam-screen').style.display = 'none';
+    document.getElementById('periodic-table-screen').style.display = 'none';
+    document.getElementById(screenId).style.display = 'block';
+}
+
+// Exibir tela inicial (Senha SAM) ao carregar
+document.addEventListener('DOMContentLoaded', function() {
+    switchScreen('senha-sam-screen');
+});
+
 const periodicTable = {
     H: 1, He: 2, Li: 3, Be: 4, B: 5, C: 6, N: 7, O: 8, F: 9, Ne: 10,
     Na: 11, Mg: 12, Al: 13, Si: 14, P: 15, S: 16, Cl: 17, Ar: 18, K: 19, Ca: 20,
