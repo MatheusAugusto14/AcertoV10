@@ -3,8 +3,8 @@
   "short_name": "Reckoning SAM",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#071022",
-  "theme_color": "#071022",
+  "background_color": "#0f1724",
+  "theme_color": "#0f1724",
   "icons": [
     {
       "src": "icon-192.png",
