@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="manifest" href="manifest.json">
+<title>Reckoning - Códigos SAM</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app">
+    <header class="app-header">
+      <h1>Reckoning - Códigos SAM</h1>
+      <p class="subtitle">Selecione até 4 arquivos SAM</p>
+    </header>
+
+    <section class="cards" id="docs"></section>
+
+    <div class="controls">
+      <div id="warning" class="warning" aria-live="polite"></div>
+      <div id="resultado" class="resultado">Senha: </div>
+    </div>
+
+    <footer class="footer">PWA • Offline ready</footer>
+  </main>
+
+<script src="app.js"></script>
+
+<!-- PWA install handling -->
+<script>
+let deferredPrompt;
+const installBtnHtml = '<button id="pwa-install-btn" style="position:fixed;right:18px;bottom:18px;padding:10px 14px;border-radius:10px;background:#06b6d4;color:#071021;border:none;font-weight
