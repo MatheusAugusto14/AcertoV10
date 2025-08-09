@@ -25,5 +25,31 @@
   </main>
 
 <script src="app.js"></script>
+
+<!-- PWA install handling -->
+<script>
+let deferredPrompt;
+const installBtnHtml = '<button id="pwa-install-btn" style="position:fixed;right:18px;bottom:18px;padding:10px 14px;border-radius:10px;background:#06b6d4;color:#071021;border:none;font-weight:700;display:none;z-index:9999">Instalar app</button>';
+document.addEventListener('DOMContentLoaded', ()=>{
+  document.body.insertAdjacentHTML('beforeend', installBtnHtml);
+  const installBtn = document.getElementById('pwa-install-btn');
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    installBtn.style.display = 'block';
+    installBtn.addEventListener('click', async () => {
+      installBtn.style.display = 'none';
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      deferredPrompt = null;
+    });
+  });
+  // Register service worker
+  if('serviceWorker' in navigator){
+    navigator.serviceWorker.register('./service-worker.js').then(()=>console.log('sw registered')).catch(()=>{});
+  }
+});
+</script>
+
 </body>
 </html>
