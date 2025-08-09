@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reckoning - Códigos SAM</title>
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#00ffcc">
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; background: #111; color: #fff; }
+        h1 { color: #00ffcc; }
+        button { padding: 10px; margin: 5px; background: #00ffcc; border: none; border-radius: 5px; cursor: pointer; }
+        .result { margin-top: 20px; font-size: 1.5em; }
+        label { display: block; margin: 5px 0; }
+    </style>
+</head>
+<body>
+    <h1>Reckoning - Códigos SAM</h1>
+    <p>Selecione os 4 documentos encontrados:</p>
+    <div id="docs"></div>
+    <button onclick="calcularSenha()">Gerar Senha</button>
+    <div class="result" id="resultado"></div>
+
+    <script>
+        const documentos = [
+            { codigo: 6, nome: "Crachá da BND", data: "1985" },
+            { codigo: 1, nome: "Coleira do Notso", data: "1985" },
+            { codigo: 3, nome: "Cachecol", data: "1985" },
+            { codigo: 4, nome: "Relógio de Pulso", data: "1985" },
+            { codigo: 5, nome: "Óculos de Combate", data: "1985" },
+            { codigo: 2, nome: "Katana", data: "1985" }
+        ];
+
+        const docsDiv = document.getElementById("docs");
+        documentos.forEach((doc, index) => {
+            docsDiv.innerHTML += `
+                <label>
+                    <input type="checkbox" value="${index}" onchange="limitarSelecao(this)">
+                    ${doc.nome} (${doc.codigo})
+                </label>`;
+        });
+
+        function limitarSelecao(checkbox) {
+            const selecionados = document.querySelectorAll("input:checked").length;
+            if (selecionados > 4) {
+                checkbox.checked = false;
+                alert("Você só pode selecionar no máximo 4 documentos!");
+            }
+        }
+
+        function calcularSenha() {
+            const selecionados = Array.from(document.querySelectorAll("input:checked"))
+                .map(el => documentos[el.value]);
+            
+            if (selecionados.length !== 4) {
+                alert("Selecione exatamente 4 documentos!");
+                return;
+            }
+
+            selecionados.sort((a, b) => new Date(a.data) - new Date(b.data));
+            const senha = selecionados.map(doc => doc.codigo).join("");
+            document.getElementById("resultado").innerText = "Senha: " + senha;
+        }
+
+        if ("serviceWorker" in navigator) {
+            navigator.serviceWorker.register("./service-worker.js")
+            .then(() => console.log("Service Worker registrado."))
+            .catch(err => console.error("Erro no SW:", err));
+        }
+    </script>
+</body>
+</html>
