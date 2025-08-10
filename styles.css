@@ -106,3 +106,8 @@ header button, header a {
   margin-top: 20px !important;
   margin-bottom: 30px !important;
 }
+
+html, body {
+    height: 100vh;
+    overflow-y: auto;
+}
