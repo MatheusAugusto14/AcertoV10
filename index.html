@@ -1,33 +1,27 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="manifest" href="manifest.json">
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<link href="manifest.json" rel="manifest"/>
 <title>Reckoning - Códigos SAM</title>
-<link rel="stylesheet" href="styles.css">
+<link href="styles.css" rel="stylesheet"/>
 </head>
 <body>
-  <main class="app">
-    <header class="app-header">
-      <h1>Reckoning - Códigos SAM</h1>
-      <p class="subtitle">Selecione até 4 arquivos SAM</p>
-    </header>
-<div style="text-align:center;margin:12px 0;"><a href="tabela_periodica.html" class="btn-link" style="padding:8px 12px;background:#06b6d4;color:#071021;border-radius:8px;text-decoration:none;font-weight:700">Ir para Tabela Periódica</a></div>
-
-
-    <section class="cards" id="docs"></section>
-
-    <div class="controls">
-      <div id="warning" class="warning" aria-live="polite"></div>
-      <div id="resultado" class="resultado">Senha: </div>
-    </div>
-
-    <footer class="footer">PWA • Offline ready</footer>
-  </main>
-
+<main class="app">
+<header class="app-header"><a class="btn-link top-tabela-periodica" href="tabela_periodica.html" style="padding:8px 12px;background:#06b6d4;color:#071021;border-radius:8px;text-decoration:none;font-weight:700">Ir para Tabela Periódica</a>
+<h1>Reckoning - Códigos SAM</h1>
+<p class="subtitle">Selecione até 4 arquivos SAM</p>
+</header>
+<div style="text-align:center;margin:12px 0;"></div>
+<section class="cards" id="docs"></section>
+<div class="controls">
+<div aria-live="polite" class="warning" id="warning"></div>
+<div class="resultado" id="resultado">Senha: </div>
+</div>
+</main>
 <script src="app.js"></script>
-
 <!-- PWA install handling -->
 <script>
 let deferredPrompt;
@@ -52,6 +46,5 @@ document.addEventListener('DOMContentLoaded', ()=>{
   }
 });
 </script>
-
 </body>
 </html>

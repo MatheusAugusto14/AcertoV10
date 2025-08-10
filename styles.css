@@ -6,8 +6,15 @@ html,body{height:100%}
 body{margin:0;font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;background:linear-gradient(180deg,var(--bg),#071021);color:var(--text);display:flex;align-items:center;justify-content:center;padding:24px}
 
 .app{width:100%;max-width:760px}
-.app-header{display:flex;flex-direction:column;gap:6px;margin-bottom:18px;text-align:center}
-.app-header h1{margin:0;font-size:20px}
+.app-header {
+  margin-top: -10px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.app-header h1 {
+  font-size: 26px !important;
+  font-weight: 600 !important;
+}
 .subtitle{margin:0;color:var(--muted);font-size:13px}
 
 .cards{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:16px}
@@ -44,9 +51,58 @@ body{margin:0;font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "
 /* Controls */
 .controls{display:flex;align-items:center;gap:12px;justify-content:space-between}
 .warning{color:#ffb4a2; min-height:20px}
-.resultado{color:var(--text);padding:8px 12px;border-radius:8px;background:rgba(255,255,255,0.02);min-width:160px;text-align:center;font-weight:700font-size:2.2rem;padding:14px 18px;}
+.resultado {
+  width: 100%;
+  font-size: 2.2rem;
+  padding: 14px 18px;
+  color: var(--text);
+  border-radius: 6px;
+  font-weight: 700;
+  text-align: center;
+}
+
 
 /* responsive */
-@media (max-width:520px){.badge{flex:0 0 44px;height:44px;font-size:16px} .controls{flex-direction:column;align-items:stretch} .resultado{width:100%font-size:2.2rem;padding:14px 18px;}}
+@media (max-width:520px){.badge{flex:0 0 44px;height:44px;font-size:16px} .controls{flex-direction:column;align-items:stretch} .resultado {
+  width: 100%;
+  font-size: 2.2rem;
+  padding: 14px 18px;
+  color: var(--text);
+  border-radius: 6px;
+  font-weight: 700;
+  text-align: center;
+}
+}
 
 .selected { color: #FFFFFF !important; }
+
+
+
+
+#resultado {
+  font-size: 24px;
+  font-weight: 700;
+  display: block;
+  margin: 10px auto;
+  max-width: 90%;
+  text-align: center;
+  z-index: 9999;
+  padding: 6px 12px;
+}
+
+
+header p {
+  font-size: 32px !important;
+  font-weight: 700 !important;
+}
+
+header button, header a {
+  margin-bottom: 50px !important;
+}
+
+
+.top-tabela-periodica {
+  display: inline-block;
+  margin-top: 20px !important;
+  margin-bottom: 30px !important;
+}
