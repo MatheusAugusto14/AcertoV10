@@ -106,13 +106,3 @@ header button, header a {
   margin-top: 20px !important;
   margin-bottom: 30px !important;
 }
-
-
-/* Container com rolagem */
-#scroll-container {
-    overflow-y: auto;
-    overflow-y: auto;
-    
-    padding: 10px;
-    box-sizing: border-box;
-}
